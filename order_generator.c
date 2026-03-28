@@ -12,16 +12,16 @@
 #include <unistd.h>
 #include "order.h"
 #include "order_generator.h"
-
+                                 
 void generate_order(int fd) {
 	srand(time(NULL));     // Initialize random generator
 	
 	struct Order order;
 	
 	// Generate random product details
-	order.product_id = rand() % 11 + 100;
+	order.product_id = rand() % 5;
 	order.product_quantity = rand() % 10 + 1;
-	strcpy(order.product_name, "Product101");
+	strcpy(order.product_name, "Product");
 	
 	if(fd == -1){
 		printf("fd with error # %d\n", errno);
@@ -37,5 +37,6 @@ void generate_order(int fd) {
 	else{
 		printf("Order send successfully \n");
 		printf("Bytes written = %ld\n", writtenBytes);
+		printf("Generated Order: ID : %d  Qty: %d\n",order.product_id, order.product_quantity);
 	}
 }

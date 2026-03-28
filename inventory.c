@@ -6,12 +6,17 @@
 */
 
 #include <stdio.h>
+#include <sys/mman.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
 #include "inventory.h"
 
 // Initial stock
 int stock = 50;
 
 int check_update_stock(int product_id, int quantity) {
+
 	// Check if stock is sufficient
 	if(stock >= quantity) {
 		stock -= quantity;  // Update stock

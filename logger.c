@@ -11,12 +11,13 @@
 #include <errno.h>      
 #include "logger.h"     
 
-//start logger process
+// Start logger process
 void start_logger() {
 
     char buffer[100];   // Buffer to store data read from FIFO
 
-    // Open FIFO (named pipe) 
+    // Open FIFO (named pipe) in read-only mode
+
     int fifo_fd = open("myfifo", O_RDONLY);
 
     // Check if FIFO open failed
@@ -60,3 +61,4 @@ void start_logger() {
     // Close FIFO 
     close(fifo_fd);
 }
+
