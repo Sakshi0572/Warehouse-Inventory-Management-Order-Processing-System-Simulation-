@@ -20,8 +20,6 @@
 #include "logger.h"
 
 
-
-
 // Handles signal, cleans FIFO, and exits program
 void signal_handler(int sig) {
     printf("\nShutting down system...\n"); // Show shutdown message
@@ -31,16 +29,18 @@ void signal_handler(int sig) {
 
 int main() {
 	int fd[2];
-	
+	// Initialize system: setup signals
 	signal(SIGINT, signal_handler);
 	
+	//Create FIFO
 	mkfifo("myfifo", 0666);
 	pid_t logger_pid = fork();
 
-if(logger_pid == 0) {
-    start_logger();
-    exit(0);
-}
+	//Launch logger process	
+	if(logger_pid == 0) {
+   		start_logger();
+    	exit(0);
+	}
 	//Create pipe for communication
 	if (pipe(fd) == -1) {
 		printf("Pipe failed with error # %d\n", errno);
@@ -55,17 +55,13 @@ if(logger_pid == 0) {
 		perror("Error : ");
 	}
 	else if (pid == 0) {  // child process -> order generator
-	
 		close(fd[0]);  //close read end 
-		
 		generate_order(fd[1]);  //send order
 		close(fd[1]);  //close write end 
                 exit(0);
 	}
 	else {  // parent process -> order generator
-	
 		close(fd[1]);  //close write end 
-		
 		process_order(fd[0]);  //Receive and process order
 		close(fd[0]);  //close read end
 	}
