@@ -1,0 +1,12 @@
+order.log
+orders.log
+fifo.log
+*.o
+
+
+
+
+
+*.log
+!store_order.log
+

@@ -49,7 +49,7 @@ void* process_thread(void *arg) {
     sprintf(msg, "Order %d processed Quantity=%d\n",order.product_id, order.product_quantity);
 
     // Open FIFO and send log message
-    int fifo_fd = open("myfifo", O_RDWR);
+    int fifo_fd = open("myfifo", O_WRONLY);
     write(fifo_fd, msg, strlen(msg));
 
     printf("FIfo : %ld\n", strlen(msg));

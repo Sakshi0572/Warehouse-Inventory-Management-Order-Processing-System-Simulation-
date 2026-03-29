@@ -25,7 +25,7 @@
 // Handles signal, cleans FIFO, and exits program
 void signal_handler(int sig) {
     printf("\nShutting down system...\n"); // Show shutdown message
-    unlink("myfifo");                     // Delete FIFO file
+    unlink("myfifo");                  // Delete FIFO file
     exit(0);                              // Exit program
 }
 
@@ -33,8 +33,14 @@ int main() {
 	int fd[2];
 	
 	signal(SIGINT, signal_handler);
-	mkfifo("myfifo", 0666);
 	
+	mkfifo("myfifo", 0666);
+	pid_t logger_pid = fork();
+
+if(logger_pid == 0) {
+    start_logger();
+    exit(0);
+}
 	//Create pipe for communication
 	if (pipe(fd) == -1) {
 		printf("Pipe failed with error # %d\n", errno);
