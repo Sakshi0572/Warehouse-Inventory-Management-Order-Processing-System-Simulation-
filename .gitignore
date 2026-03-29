@@ -1,6 +1,7 @@
 order.log
 orders.log
 fifo.log
+logger
 *.o
 
 
